@@ -1,107 +1,111 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const searchForm = document.getElementById('search-form');
-    const searchInput = document.getElementById('search-input');
-    const resultsSection = document.getElementById('results-section');
-    const favoritesList = document.getElementById('favorites-list');
+    const inputRecherche = document.querySelector('#bloc-recherche input[type="text"]');
+    const btnLancerRecherche = document.getElementById('btn-lancer-recherche');
+    const btnFavoris = document.getElementById('btn-favoris');
+    const blocResultats = document.getElementById('bloc-resultats');
+    const blocGifAttente = document.getElementById('bloc-gif-attente');
+    const listeFavoris = document.getElementById('liste-favoris');
+    const infoVideFavoris = document.querySelector('#section-favoris .info-vide');
   
-    searchForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const query = searchInput.value.trim();
+    let recherchesFavoris = JSON.parse(localStorage.getItem('recherchesFavoris')) || [];
   
-      if (query === '') {
-        displayMessage('Veuillez entrer le nom d\'un personnage Disney.');
-        return;
+    const afficherFavoris = () => {
+      listeFavoris.innerHTML = '';
+      if (recherchesFavoris.length === 0) {
+        infoVideFavoris.style.display = 'block';
+      } else {
+        infoVideFavoris.style.display = 'none';
+        recherchesFavoris.forEach(recherche => {
+          const li = document.createElement('li');
+          const span = document.createElement('span');
+          span.textContent = recherche;
+          span.title = 'Cliquer pour relancer la recherche';
+          span.addEventListener('click', () => {
+            inputRecherche.value = recherche;
+            lancerRecherche();
+          });
+          const img = document.createElement('img');
+          img.src = 'images/croix.svg';
+          img.alt = 'Icone pour supprimer le favori';
+          img.width = 15;
+          img.title = 'Cliquer pour supprimer le favori';
+          img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            supprimerFavori(recherche);
+          });
+          li.appendChild(span);
+          li.appendChild(img);
+          listeFavoris.appendChild(li);
+        });
       }
+    };
   
-      try {
-        const response = await fetch(`https://api.disneyapi.dev/character?name=${encodeURIComponent(query)}`);
-        if (!response.ok) {
-          throw new Error(`Erreur : ${response.status}`);
-        }
+    const ajouterFavori = (recherche) => {
+      if (!recherchesFavoris.includes(recherche)) {
+        recherchesFavoris.push(recherche);
+        localStorage.setItem('recherchesFavoris', JSON.stringify(recherchesFavoris));
+        afficherFavoris();
+        btnFavoris.querySelector('img').src = 'images/etoile-pleine.svg';
+        btnFavoris.disabled = true;
+      }
+    };
   
-        const data = await response.json();
-        if (data.data.length === 0) {
-          displayMessage('Aucun personnage trouvé. Veuillez vérifier l\'orthographe ou essayer un autre nom.');
-        } else {
-          displayCharacters(data.data);
-        }
-      } catch (error) {
-        displayMessage('Une erreur s\'est produite lors de la récupération des données. Veuillez réessayer plus tard.');
-        console.error(error);
+    const supprimerFavori = (recherche) => {
+      recherchesFavoris = recherchesFavoris.filter(fav => fav !== recherche);
+      localStorage.setItem('recherchesFavoris', JSON.stringify(recherchesFavoris));
+      afficherFavoris();
+    };
+  
+    const lancerRecherche = () => {
+      const query = inputRecherche.value.trim();
+      if (query === '') return;
+  
+      blocResultats.innerHTML = '';
+      blocGifAttente.style.display = 'block';
+  
+      fetch(`https://api.disneyapi.dev/character?name=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          blocGifAttente.style.display = 'none';
+          if (data.data.length === 0) {
+            blocResultats.innerHTML = '<p class="info-vide">(Aucun résultat trouvé)</p>';
+          } else {
+            data.data.forEach(character => {
+              const p = document.createElement('p');
+              p.className = 'res';
+              p.textContent = character.name;
+              blocResultats.appendChild(p);
+            });
+          }
+          if (!recherchesFavoris.includes(query)) {
+            btnFavoris.disabled = false;
+            btnFavoris.querySelector('img').src = 'images/etoile-vide.svg';
+          } else {
+            btnFavoris.disabled = true;
+            btnFavoris.querySelector('img').src = 'images/etoile-pleine.svg';
+          }
+        })
+        .catch(error => {
+          blocGifAttente.style.display = 'none';
+          blocResultats.innerHTML = '<p class="info-vide">(Erreur lors de la recherche)</p>';
+          console.error('Erreur:', error);
+        });
+    };
+  
+    btnLancerRecherche.addEventListener('click', lancerRecherche);
+  
+    inputRecherche.addEventListener('input', () => {
+      btnFavoris.disabled = true;
+      btnFavoris.querySelector('img').src = 'images/etoile-vide.svg';
+    });
+  
+    btnFavoris.addEventListener('click', () => {
+      const query = inputRecherche.value.trim();
+      if (query !== '') {
+        ajouterFavori(query);
       }
     });
   
-    function displayMessage(message) {
-      resultsSection.innerHTML = `<p>${message}</p>`;
-    }
-  
-    function displayCharacters(characters) {
-      resultsSection.innerHTML = '';
-      characters.forEach(character => {
-        const characterCard = document.createElement('div');
-        characterCard.classList.add('character-card');
-  
-        const favoriteCheckbox = document.createElement('input');
-        favoriteCheckbox.type = 'checkbox';
-        favoriteCheckbox.classList.add('favorite-checkbox');
-        favoriteCheckbox.id = `favorite-${character._id}`;
-        favoriteCheckbox.addEventListener('change', () => toggleFavorite(character, favoriteCheckbox.checked));
-  
-        const favoriteLabel = document.createElement('label');
-        favoriteLabel.htmlFor = `favorite-${character._id}`;
-        favoriteLabel.classList.add('favorite-label');
-  
-        const characterImage = document.createElement('img');
-        characterImage.src = character.imageUrl || 'placeholder.jpg'; // Remplacez 'placeholder.jpg' par une image par défaut si nécessaire
-        characterImage.alt = character.name;
-  
-        const characterDetails = document.createElement('div');
-        characterDetails.classList.add('character-details');
-  
-        const characterName = document.createElement('h2');
-        characterName.textContent = character.name;
-  
-        characterDetails.appendChild(characterName);
-  
-        if (character.films.length > 0) {
-          const films = document.createElement('p');
-          films.innerHTML = `<strong>Films :</strong> ${character.films.join(', ')}`;
-          characterDetails.appendChild(films);
-        }
-  
-        // Ajoutez des sections similaires pour les séries TV, les courts-métrages, les jeux vidéo, les attractions, les alliés et les ennemis
-  
-        characterCard.appendChild(favoriteCheckbox);
-        characterCard.appendChild(favoriteLabel);
-        characterCard.appendChild(characterImage);
-        characterCard.appendChild(characterDetails);
-  
-        resultsSection.appendChild(characterCard);
-      });
-    }
-  
-    function toggleFavorite(character, isFavorite) {
-      if (isFavorite) {
-        addFavorite(character);
-      } else {
-        removeFavorite(character);
-      }
-    }
-  
-    function addFavorite(character) {
-      const favoriteItem = document.createElement('li');
-      favoriteItem.textContent = character.name;
-      favoriteItem.dataset.characterId = character._id;
-      favoritesList.appendChild(favoriteItem);
-    }
-  
-    function removeFavorite(character) {
-      const favoriteItems = favoritesList.querySelectorAll('li');
-      favoriteItems.forEach(item => {
-        if (item.dataset.characterId === character._id) {
-          favoritesList.removeChild(item);
-        }
-      });
-    }
+    afficherFavoris();
   });
   
