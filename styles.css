@@ -16,11 +16,16 @@
 }
 
 body {
-  background-image: url('images/background.jpg'); /* Remplacez par le chemin de votre image */
+  background-image: url('images/background4.png'); /* Remplacez par le chemin de votre image */
   background-size: cover; /* L'image couvre toute la page */
   background-repeat: no-repeat; /* Pas de répétition de l'image */
   background-attachment: fixed; /* L'image reste fixe lors du défilement */
   background-position: center; /* Centrer l'image */
+  font: 14pt Roboto, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 90%;
+  margin: 40px auto;
   
 }
 
