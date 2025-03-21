@@ -16,12 +16,12 @@
 }
 
 body {
-  background-color: var(--background);
-  font: 14pt Roboto, Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  width: 90%;
-  margin: 40px auto;
+  background-image: url('images/background.jpg'); /* Remplacez par le chemin de votre image */
+  background-size: cover; /* L'image couvre toute la page */
+  background-repeat: no-repeat; /* Pas de répétition de l'image */
+  background-attachment: fixed; /* L'image reste fixe lors du défilement */
+  background-position: center; /* Centrer l'image */
+  
 }
 
 /* Paragraphes "Aucun résultat..." et "Aucune recherche..." */
@@ -165,4 +165,42 @@ h1 {
   #section-favoris {
     flex: 0;
   }
+}
+
+/* Style des boîtes de personnages */
+.character-card {
+  border: 1px solid var(--main-green);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.character-card:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.character-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.character-header h2 {
+  font-size: 1.2em;
+  margin: 0;
+  color: var(--main-green);
+}
+
+.character-details {
+  margin-top: 10px;
+  text-align: left;
+  font-size: 0.9em;
+  color: var(--text-color);
 }

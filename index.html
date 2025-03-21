@@ -10,22 +10,24 @@
   <body>
     <header>
       <h1>Informations sur les personnages Disney</h1>
-
       <p id="explication">
-        Cette page permet de rechercher des personnage Disney via l'API publique
+        Cette page permet de rechercher des personnages Disney via l'API publique
         de <a href="https://disneyapi.dev/" target="_blank">disneyapi.dev</a>.<br />
-        Saisir le nom d'un personnage Disney pour connaitre les films, série, dessins animé dans
-        lequels il apparait.
+        Saisissez le nom d'un personnage Disney pour connaître les films, séries ou dessins animés dans lesquels il apparaît.
       </p>
     </header>
     <hr />
 
     <main id="conteneur">
-      <!-- Section de recherche (avec résultats) -->
+      <!-- Section de recherche -->
       <section id="section-recherche">
         <div id="bloc-recherche">
           <!-- Champ de recherche -->
-          <input type="text" placeholder="Quel personnage cherchez-vous ?" />
+          <input
+            id="input-recherche"
+            type="text"
+            placeholder="Quel personnage cherchez-vous ?"
+          />
 
           <!-- Boutons -->
           <button
@@ -34,7 +36,6 @@
             class="btn_clicable"
             title="Lancer la recherche"
           >
-            <!-- Icone Loupe (provenant de flaticon.com) -->
             <img src="images/loupe.svg" alt="Loupe pour recherche" width="22" />
           </button>
 
@@ -44,15 +45,7 @@
             disabled
             title="Ajouter la recherche aux favoris"
           >
-            <!-- Icone étoile vide
-							(qui indique que la recherche ne fait pas partie des favoris) -->
-            <img src="images/etoile-vide.svg" alt="Etoile vide" width="22" />
-
-            <!-- Icone étoile pleine
-								(qui indique que la recherche fait partie des favoris) -->
-            <!-- <img src="images/etoile-pleine.svg" alt="Etoile pleine" width="22" > -->
-
-            <!-- (Les 2 icones d'étoile provenant de flaticon.com) -->
+            <img src="images/etoile-vide.svg" alt="Étoile vide" width="22" />
           </button>
         </div>
 
@@ -65,52 +58,22 @@
           />
         </div>
         <div id="bloc-resultats">
-          <p class="res">Résultat 1 ...</p>
-          <p class="res">Résultat 2 ...</p>
-          <p class="res">Résultat 3 ...</p>
+          <!-- Les résultats seront insérés ici dynamiquement -->
           <p class="info-vide">(Aucun résultat trouvé)</p>
         </div>
       </section>
 
-      <!-- Section de séparation (avec la bordure verte) -->
+      <!-- Section de séparation -->
       <section id="section-separation"></section>
 
       <!-- Section des recherches favorites -->
       <section id="section-favoris">
         <h2>Recherches favorites</h2>
-        <p>
-          Cliquer sur une recherche favorite ci-dessus pour relancer celle-ci :
-        </p>
+        <p>Cliquez sur une recherche favorite ci-dessous pour la relancer :</p>
         <ul id="liste-favoris">
-          <li>
-            <span title="Cliquer pour relancer la recherche">Grenoble</span>
-            <img
-              src="images/croix.svg"
-              alt="Icone pour supprimer le favori"
-              width="15"
-              title="Cliquer pour supprimer le favori"
-            />
-          </li>
-          <li>
-            <span title="Cliquer pour relancer la recherche">Lyon</span>
-            <img
-              src="images/croix.svg"
-              alt="Icone pour supprimer le favori"
-              width="15"
-              title="Cliquer pour supprimer le favori"
-            />
-          </li>
-          <li>
-            <span title="Cliquer pour relancer la recherhe.">Web</span>
-            <img
-              src="images/croix.svg"
-              alt="Icone pour supprimer le favori"
-              width="15"
-              title="Cliquer pour supprimer le favori"
-            />
-          </li>
+          <!-- Les favoris seront insérés ici dynamiquement -->
+          <p class="info-vide">(Aucune recherche favorite)</p>
         </ul>
-        <p class="info-vide">(Aucune recherche favorite)</p>
       </section>
     </main>
     <script src="script.js"></script>
