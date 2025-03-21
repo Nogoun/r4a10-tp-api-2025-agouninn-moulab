@@ -3,12 +3,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     let characters = [];
     let currentCharacter = null;
 
+    // Variables pour le comptage des réponses
+    let correctAnswersCount = 0;
+    let incorrectAnswersCount = 0;
+
     const characterImage = document.getElementById("character-image");
     const characterNameInput = document.getElementById("character-name");
     const submitButton = document.getElementById("submit-answer");
     const resultMessage = document.getElementById("result-message");
+    const correctScoreDisplay = document.getElementById("correct-score");
+    const incorrectScoreDisplay = document.getElementById("incorrect-score");
 
-        // Vérifier si une image est valide
+    // Vérifier si une image est valide
     async function isValidImage(url) {
         return new Promise((resolve) => {
             const img = new Image();
@@ -17,7 +23,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             img.src = url;
         });
     }
-
 
     // Récupérer les personnages depuis l'API
     async function fetchCharacters() {
@@ -49,6 +54,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         resultMessage.textContent = "";
     }
 
+    // Mettre à jour les scores à afficher
+    function updateScores() {
+        correctScoreDisplay.textContent = correctAnswersCount;
+        incorrectScoreDisplay.textContent = incorrectAnswersCount;
+    }
+
     // Vérifier la réponse de l'utilisateur
     submitButton.addEventListener("click", () => {
         if (!currentCharacter) return;
@@ -57,13 +68,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         const correctAnswer = currentCharacter.name.toLowerCase();
 
         if (userAnswer === correctAnswer) {
+            correctAnswersCount++;
             resultMessage.textContent = "Bonne réponse ! 🎉";
             resultMessage.style.color = "green";
-            setTimeout(loadNewCharacter, 2000);
+            setTimeout(() => {
+                loadNewCharacter();
+                updateScores();
+            }, 2000);
         } else {
+            incorrectAnswersCount++;
             resultMessage.textContent = `Mauvaise réponse ! ❌ C'était ${currentCharacter.name}.`;
             resultMessage.style.color = "red";
-            setTimeout(loadNewCharacter, 3000);
+            setTimeout(() => {
+                loadNewCharacter();
+                updateScores();
+            }, 3000);
         }
     });
 
