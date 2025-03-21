@@ -63,24 +63,46 @@ document.addEventListener('DOMContentLoaded', () => {
     loadingIndicator.style.display = 'block';
     toggleNoResultsMessage(false);
     resultsContainer.innerHTML = '';
-
+  
     try {
       const response = await fetch(`https://api.disneyapi.dev/character?name=${encodeURIComponent(query)}`);
       if (!response.ok) {
         throw new Error(`Erreur : ${response.status}`);
       }
-
+  
       const data = await response.json();
       if (data.data.length === 0) {
         toggleNoResultsMessage(true);
       } else {
-        displayResults(data.data);
+        // Trier les résultats par ressemblance avec la chaîne de recherche
+        const sortedCharacters = sortBySimilarity(query, data.data);
+        displayResults(sortedCharacters);
       }
     } catch (error) {
       console.error('Une erreur s\'est produite lors de la récupération des données.', error);
     } finally {
       loadingIndicator.style.display = 'none';
     }
+  }
+
+  function sortBySimilarity(query, characters) {
+    return characters.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      const queryLower = query.toLowerCase();
+  
+      // Vérifier si la chaîne de recherche est contenue dans le nom
+      const indexA = nameA.indexOf(queryLower);
+      const indexB = nameB.indexOf(queryLower);
+  
+      // Les noms contenant la chaîne de recherche en premier sont prioritaires
+      if (indexA !== indexB) {
+        return indexA - indexB;
+      }
+  
+      // Si les deux noms contiennent la chaîne, trier par ordre alphabétique
+      return nameA.localeCompare(nameB);
+    });
   }
 
   // Fonction pour mettre à jour l'état du bouton des favoris
