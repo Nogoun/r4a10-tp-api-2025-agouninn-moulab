@@ -2,32 +2,35 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>Disney Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disney Quizz</title>
     <link rel="shortcut icon" type="image/x-icon" href="images/flavicon.png" />
     <link rel="stylesheet" href="styles.css">
-    
 </head>
 <body>
     <header>
         <h1>Disney Quiz</h1>
         <p id="explication">Devinez le nom du personnage Disney affiché ci-dessous !</p>
+        <a href="index.html" id="btn-retour" class="btn_clicable" title="Retour à la page principale">
+            Retour à l'accueil
+        </a>
     </header>
     <hr />
     <main id="conteneur">
         <section id="quiz-section">
             <div id="image-container">
-                <img id="character-image" src="" alt="Personnage Disney" />
+                <img id="character-image" src="images/default-character.png" alt="Personnage Disney" />
             </div>
-            <input type="text" id="character-name" placeholder="Entrez le nom du personnage" />
-            <button id="submit-answer">Valider</button>
-            <p id="result-message"></p>
+            <input type="text" id="character-name" placeholder="Entrez le nom du personnage" aria-label="Nom du personnage" />
+            <button id="submit-answer" aria-label="Valider votre réponse">Valider</button>
+            <p id="result-message" role="alert"></p>
             <!-- Zone pour afficher le score -->
             <div id="score-section">
-                <p>Bonne réponse(s): <span id="correct-score">0</span></p>
-                <p>Mauvaise réponse(s): <span id="incorrect-score">0</span></p>
+                <p>Bonne réponse(s) : <span id="correct-score">0</span></p>
+                <p>Mauvaise réponse(s) : <span id="incorrect-score">0</span></p>
             </div>
         </section>
     </main>
-    <script src="quizz.js"></script>
+    <script src="js/quizz.js"></script>
 </body>
 </html>

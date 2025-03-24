@@ -12,6 +12,9 @@
 }
 
 * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   color: var(--text-color);
 }
 
@@ -26,13 +29,15 @@ body {
   padding: 0;
   width: 90%;
   margin: 40px auto;
-  
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Paragraphes "Aucun résultat..." et "Aucune recherche..." */
 p.info-vide {
   font-style: italic;
 }
+
 
 /* Partie En-tête */
 h1 {
@@ -51,6 +56,37 @@ h1 {
   display: flex;
   flex: 1;
   margin: 30px auto;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--main-green);
+  margin: 20px 0;
+}
+
+/* Style pour le bouton Quiz */
+#btn-quiz {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#btn-quiz:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#btn-quiz:active {
+  background-color: #003f7f;
 }
 
 /* Section Recherche (avec résultats) */
@@ -290,4 +326,28 @@ h1 {
   margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
+}
+
+/* Style pour le bouton Retour */
+#btn-retour {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#btn-retour:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#btn-retour:active {
+  background-color: #003f7f;
 }
