@@ -1,5 +1,5 @@
 import { CharacterModel } from './model.js';
-import { CharacterView } from './view.js';
+import { CharacterView } from './vue.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const model = new CharacterModel();
@@ -12,10 +12,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Gestionnaire d'événement pour le bouton de recherche
   view.bindSearchEvent(async (query) => {
     if (query === '') return;
+    model.currentSearch = query;
     view.showLoadingIndicator(true);
     view.clearResults();
     view.toggleNoResultsMessage(false);
 
+    try {
+      const characters = await model.searchCharacters(query);
+      if (characters.length === 0) {
+        view.toggleNoResultsMessage(true);
+      } else {
+        view.displayResults(characters);
+      }
+    } catch (error) {
+      console.error('Une erreur s\'est produite lors de la récupération des données.', error);
+    } finally {
+      view.showLoadingIndicator(false);
+    }
+  });
+
+  view.bindSearchInputKeyPress(async (query) => {
+    if (query === '') return;
+    model.currentSearch = query;
+    view.showLoadingIndicator(true);
+    view.clearResults();
+    view.toggleNoResultsMessage(false);
+  
     try {
       const characters = await model.searchCharacters(query);
       if (characters.length === 0) {
@@ -40,8 +62,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Gestionnaire d'événement pour la sélection d'un favori
   view.bindFavoriteSelection((favorite) => {
-    view.setSearchInput(favorite);
-    view.triggerSearch();
+    model.currentSearch = favorite; // Met à jour la recherche actuelle
+    view.setSearchInput(favorite); // Met à jour le champ de recherche
+    view.clearResults();
+    view.showLoadingIndicator(true);
+    view.toggleNoResultsMessage(false);
+  
+    // Relance la recherche
+    model.searchCharacters(favorite)
+      .then((characters) => {
+        if (characters.length === 0) {
+          view.toggleNoResultsMessage(true); 
+        } else {
+          view.displayResults(characters);
+        }
+      })
+      .catch((error) => {
+        console.error('Une erreur s\'est produite lors de la recherche :', error);
+      })
+      .finally(() => {
+        view.showLoadingIndicator(false); 
+      });
   });
 
   // Gestionnaire d'événement pour la suppression d'un favori

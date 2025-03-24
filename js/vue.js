@@ -1,4 +1,4 @@
-class CharacterView {
+export class CharacterView {
   constructor() {
     this.searchInput = document.querySelector('#bloc-recherche input[type="text"]');
     this.searchButton = document.getElementById('btn-lancer-recherche');
@@ -41,18 +41,38 @@ class CharacterView {
     });
   }
 
+  clearResults() {
+    this.resultsContainer.innerHTML = '';
+  }
+
   updateFavoritesList(favorites) {
-    this.favoritesList.innerHTML = '';
+    this.favoritesList.innerHTML = ''; // Vide la liste des favoris
     favorites.forEach(favorite => {
       const listItem = document.createElement('li');
+  
+      // Crée un élément <span> pour afficher le nom du favori
       const span = document.createElement('span');
       span.textContent = favorite;
       span.title = 'Cliquer pour relancer la recherche';
+  
+      // Crée une icône de suppression (croix)
+      const deleteIcon = document.createElement('img');
+      deleteIcon.src = 'images/croix.svg'; // Assurez-vous que cette image existe
+      deleteIcon.alt = 'Supprimer';
+      deleteIcon.width = 15;
+      deleteIcon.title = 'Supprimer ce favori';
+      deleteIcon.style.cursor = 'pointer';
 
+      // Ajoute le <span> et l'icône de suppression au <li>
       listItem.appendChild(span);
+      listItem.appendChild(deleteIcon);
+  
+      // Ajoute le <li> à la liste des favoris
       this.favoritesList.appendChild(listItem);
     });
   }
+
+
 
   toggleNoResultsMessage(show) {
     this.noResultsMessage.style.display = show ? 'block' : 'none';
@@ -66,7 +86,54 @@ class CharacterView {
     this.loadingIndicator.style.display = show ? 'block' : 'none';
   }
 
+  setSearchInput(value) {
+    this.searchInput.value = value;
+  }
+
+  bindFavoriteSelection(handler) {
+    this.favoritesList.addEventListener('click', (event) => {
+      const listItem = event.target.closest('li');
+      if (listItem) {
+        const favorite = listItem.querySelector('span').textContent;
+        handler(favorite);
+      }
+    });
+  }
+
+  bindFavoritesEvent(handler) {
+    this.favoritesButton.addEventListener('click', handler);
+  }
+
+  bindFavoriteDeletion(handler) {
+    this.favoritesList.addEventListener('click', (event) => {
+      if (event.target.tagName === 'IMG') {
+        const favorite = event.target.previousElementSibling.textContent;
+        handler(favorite);
+      }
+    });
+  }
+
+  bindSearchEvent(handler) {
+    this.searchButton.addEventListener('click', () => {
+      const query = this.searchInput.value.trim();
+      handler(query);
+    });
+  }
+
+  bindSearchInputKeyPress(handler) {
+    this.searchInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const query = this.searchInput.value.trim();
+        handler(query); // Appelle le gestionnaire avec la requête
+      }
+    });
+  }
+
   updateFavoritesButton(isFavorite) {
     this.favoritesButton.innerHTML = `<img src="images/${isFavorite ? 'etoile-pleine' : 'etoile-vide'}.svg" alt="${isFavorite ? 'Favori' : 'Non favori'}" width="22">`;
+  }
+  
+  showLoadingIndicator(show) {
+    this.loadingIndicator.style.display = show ? 'block' : 'none';
   }
 }
