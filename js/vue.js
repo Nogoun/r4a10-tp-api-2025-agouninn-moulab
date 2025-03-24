@@ -63,6 +63,14 @@ export class CharacterView {
       deleteIcon.title = 'Supprimer ce favori';
       deleteIcon.style.cursor = 'pointer';
 
+      deleteIcon.addEventListener('click', (event) => {
+        event.stopPropagation(); // Empêche le clic sur la croix de déclencher la recherche
+        this.favoritesList.dispatchEvent(new CustomEvent('deleteFavorite', {
+          detail: favorite,
+          bubbles: true,
+        }));
+      });
+
       // Ajoute le <span> et l'icône de suppression au <li>
       listItem.appendChild(span);
       listItem.appendChild(deleteIcon);
@@ -105,11 +113,9 @@ export class CharacterView {
   }
 
   bindFavoriteDeletion(handler) {
-    this.favoritesList.addEventListener('click', (event) => {
-      if (event.target.tagName === 'IMG') {
-        const favorite = event.target.previousElementSibling.textContent;
-        handler(favorite);
-      }
+    this.favoritesList.addEventListener('deleteFavorite', (event) => {
+      const favorite = event.detail;
+      handler(favorite);
     });
   }
 

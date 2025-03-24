@@ -11,7 +11,35 @@ export class CharacterModel {
       throw new Error(`Erreur : ${response.status}`);
     }
     const data = await response.json();
-    return data.data;
+
+    // Trie les résultats en fonction de leur similarité avec la chaîne recherchée
+    const sortedResults = data.data.sort((a, b) => {
+      const similarityA = this.calculateSimilarity(query, a.name);
+      const similarityB = this.calculateSimilarity(query, b.name);
+      return similarityB - similarityA; // Tri décroissant (le plus similaire en premier)
+    });
+
+    return sortedResults;
+  }
+
+  calculateSimilarity(query, name) {
+    const queryLower = query.toLowerCase();
+    const nameLower = name.toLowerCase();
+
+    // Si le nom contient exactement la chaîne recherchée, priorité maximale
+    if (nameLower.includes(queryLower)) {
+      return queryLower.length / nameLower.length;
+    }
+
+    // Sinon, calcule une correspondance partielle
+    let matches = 0;
+    for (let i = 0; i < queryLower.length; i++) {
+      if (nameLower.includes(queryLower[i])) {
+        matches++;
+      }
+    }
+
+    return matches / queryLower.length; // Retourne un score de similarité
   }
 
   loadFavorites() {
