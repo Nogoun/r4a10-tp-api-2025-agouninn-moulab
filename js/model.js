@@ -1,7 +1,7 @@
 class CharacterModel {
     constructor() {
       this.apiUrl = 'https://api.disneyapi.dev/character';
-      this.defaultImageUrl = 'URL_DE_L_IMAGE_PAR_DÉFAUT'; // Remplacez par l'URL de votre image par défaut
+      this.defaultImageUrl = 'images/background4.png';
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     }
   
