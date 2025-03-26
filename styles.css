@@ -1,16 +1,20 @@
 /* Importation de la police Roboto */
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
-/* Définition des principales couleurs */
+/* Variables */
 :root {
-  --text-color: #fafafa; /* (Texte presque blanc) */
-  --background: #34495e; /* (Fond bleu foncé) */
+  --text-color: #fafafa;
+  --background: #34495e;
   --background-button: #bebebe;
   --main-green: rgb(26, 188, 156);
   --active-green: rgb(20, 156, 128);
   --almost-black: #2d2d2d;
+  --button-blue: #007bff;
+  --button-hover-blue: #0056b3;
+  --button-active-blue: #003f7f;
 }
 
+/* Réinitialisation générale */
 * {
   margin: 0;
   padding: 0;
@@ -18,46 +22,39 @@
   color: var(--text-color);
 }
 
+/* Body et fond */
 body {
-  background-image: url('images/background4.png'); 
-  background-size: cover; /* L'image couvre toute la page */
-  background-repeat: no-repeat; 
-  background-attachment: fixed; 
-  background-position: center; /* Centrer l'image */
+  background: url('images/background4.png') center/cover no-repeat fixed;
   font: 14pt Roboto, Arial, sans-serif;
-  margin: 0;
-  padding: 0;
   width: 90%;
   margin: 40px auto;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
-/* Paragraphes "Aucun résultat..." et "Aucune recherche..." */
+/* Textes et paragraphes */
 p.info-vide {
   font-style: italic;
 }
 
-
-/* Partie En-tête */
+/* En-tête */
 h1 {
   text-align: center;
   font-variant: small-caps;
   font-size: 2.5em;
   color: var(--main-green);
 }
-
 #explication {
   font-size: 1.2em;
 }
 
-/* Conteneur principal */
+/* Conteneur principal et hr */
 #conteneur {
   display: flex;
   flex: 1;
   margin: 30px auto;
 }
-
 hr {
   border: 0;
   height: 1px;
@@ -65,126 +62,116 @@ hr {
   margin: 20px 0;
 }
 
-/* Style pour le bouton Quiz */
+/* Bouton Quiz et Bouton Retour */
+#btn-quiz,
+#btn-retour {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 #btn-quiz {
   position: absolute;
   top: 20px;
   right: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
+  background-color: var(--button-blue);
   color: white;
   text-decoration: none;
-  font-size: 1em;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 #btn-quiz:hover {
-  background-color: #0056b3;
+  background-color: var(--button-hover-blue);
   transform: scale(1.05);
 }
-
 #btn-quiz:active {
   background-color: #003f7f;
 }
+#btn-retour {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: var(--button-blue);
+  color: white;
+  text-decoration: none;
+}
+#btn-retour:hover {
+  background-color: var(--button-hover-blue);
+  transform: scale(1.05);
+}
+#btn-retour:active {
+  background-color: #003f7f;
+}
 
-/* Section Recherche (avec résultats) */
+/* Section Recherche */
 #section-recherche {
   margin-top: 0;
   flex: 1 1 auto;
 }
-
 #bloc-recherche {
   display: flex;
   margin: 0 auto;
   min-width: 450px;
   flex-direction: row;
 }
-
 #bloc-recherche > input[type="text"],
 #bloc-recherche > button {
-  display: block;
   font-size: 1.2em;
+  display: block;
 }
-
 #bloc-recherche > input[type="text"] {
   color: var(--almost-black);
   flex: 1;
   padding: 0.7em;
   border: 0.3em solid var(--main-green);
 }
-
 #bloc-recherche > button {
-  padding: 0.8em 0.8em;
-  /* Bordure invisible pour que le hover ne bouge pas le bouton */
+  padding: 0.8em;
   border: 1px solid var(--main-green);
-
-  /* Par défaut, les boutons sont en gris
-	 (S'ils sont "clicables", ils passent en vert) */
   background-color: var(--background-button);
 }
-
-/* Apparences des boutons clicables */
 #bloc-recherche > button.btn_clicable {
   background-color: var(--main-green);
 }
-
 #bloc-recherche > button:focus {
-  /* Pour éviter un affichage disgracieux
-		quand le bouton reste en focus */
   outline: 0 !important;
 }
-
 #bloc-recherche > button.btn_clicable:hover {
   cursor: pointer;
   border: 1px solid white;
 }
-
 #bloc-recherche > button.btn_clicable:active {
   background-color: var(--active-green);
 }
 
-/* GIF de chargement (caché par défaut) */
+/* GIF de chargement et résultats */
 #bloc-gif-attente {
   display: none;
   margin: 40px;
   text-align: center;
 }
-
 #bloc-resultats p.res::before {
-  /* Affichage d'une flèche devant chaque résultat
-		(Cf. https://unicode-table.com/fr/21E8/ ) */
   content: "\21E8\00A0";
 }
 
-/* Section de la barre de séparation */
+/* Section séparation */
 #section-separation {
   border-left: 2px dashed var(--main-green);
   margin: 0 20px;
 }
 
-/* Section des recherches favorites */
+/* Recherches favorites */
 #section-favoris {
   flex: 0 0 300px;
   margin-top: 0;
   margin-bottom: 20px;
 }
-
-#section-favoris h2 {
-  margin-top: 0;
-}
-
-#section-favoris p {
-  margin-bottom: 8px;
-}
-
+#section-favoris h2 { margin-top: 0; }
+#section-favoris p { margin-bottom: 8px; }
 #liste-favoris {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-
 #liste-favoris li {
   display: flex;
   align-items: center;
@@ -194,40 +181,29 @@ hr {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-
 #liste-favoris li img {
   cursor: pointer;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-
 #liste-favoris li span {
   font-size: 1em;
   color: #ffffff;
   cursor: pointer;
   transition: color 0.3s ease;
 }
+#liste-favoris li span:hover { color: var(--main-green); }
 
-#liste-favoris li span:hover {
-  color: var(--main-green);
-}
-
-/* Media-query pour gérer l'affichage sur petit écran */
+/* Media-query pour petit écran */
 @media (max-width: 900px) {
-  #conteneur {
-    flex-direction: column-reverse;
-  }
-
+  #conteneur { flex-direction: column-reverse; }
   #section-separation {
     border-top: 2px dashed var(--main-green);
     margin: 0 -10px 40px -10px;
   }
-
-  #section-favoris {
-    flex: 0;
-  }
+  #section-favoris { flex: 0; }
 }
 
-/* Style des boîtes de personnages */
+/* Boîtes de personnages */
 .character-card {
   border: 1px solid var(--main-green);
   border-radius: 8px;
@@ -238,12 +214,10 @@ hr {
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
 }
-
 .character-card:hover {
   transform: scale(1.05);
   background-color: rgba(255, 255, 255, 0.2);
 }
-
 .character-header img {
   width: 100px;
   height: 100px;
@@ -251,13 +225,11 @@ hr {
   object-fit: cover;
   margin-bottom: 10px;
 }
-
 .character-header h2 {
   font-size: 1.2em;
   margin: 0;
   color: var(--main-green);
 }
-
 .character-details {
   margin-top: 10px;
   text-align: left;
@@ -265,6 +237,7 @@ hr {
   color: var(--text-color);
 }
 
+/* Styles spécifiques au Quizz */
 #quiz-section {
   margin-top: 50px;
   display: flex;
@@ -272,40 +245,37 @@ hr {
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100vh; /* Occupe toute la hauteur de l'écran */
-  width: 100vw; /* Occupe toute la largeur de l'écran */
+  height: 100vh;
+  width: 100vw;
   position: absolute;
   top: 0;
   left: 0;
 }
-
 #image-container {
-  width: 300px; /* Taille fixe du conteneur */
+  width: 300px;
   height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Cache les débordements */
+  overflow: hidden;
   border: 2px solid #ccc;
   border-radius: 10px;
   margin-bottom: 20px;
 }
-
 #character-image {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* Ajuste l'image tout en conservant son ratio */
+  object-fit: contain;
 }
-
 #character-name {
   padding: 10px;
   font-size: 16px;
   width: 250px;
   text-align: center;
   margin-bottom: 10px;
-  background-color: #f0f0f0; /* Fond gris clair */
-  color: #333; /* Texte noir ou gris foncé */
-  border: 1px solid #ccc; /* Bordure claire pour l'input */
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 #submit-answer {
@@ -313,69 +283,93 @@ hr {
   font-size: 16px;
   cursor: pointer;
   border: none;
-  background-color: #007bff;
+  background-color: var(--button-blue);
   color: white;
   border-radius: 5px;
   transition: background-color 0.3s;
 }
-
-#submit-answer:hover {
-  background-color: #0056b3;
-}
-
+#submit-answer:hover { background-color: var(--button-hover-blue); }
 #result-message {
   margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
 }
 
-/* Style pour le bouton Retour */
+/* Bouton Retour */
 #btn-retour {
   position: absolute;
   top: 20px;
   left: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: var(--button-blue);
   color: white;
   text-decoration: none;
   font-size: 1em;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
 #btn-retour:hover {
-  background-color: #0056b3;
+  background-color: var(--button-hover-blue);
   transform: scale(1.05);
 }
+#btn-retour:active { background-color: var(--button-active-blue); }
 
-#btn-retour:active {
-  background-color: #003f7f;
-}
-
-/* Style pour le bouton de retour en haut */
+/* Bouton Scroll Top */
 #btn-scroll-top {
-  position: fixed; 
-  bottom: 50px; /* Distance depuis le bas de l'écran */
-  right: 50px; /* Distance depuis le côté droit de l'écran */
-  padding: 30px 35px;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  padding: 30px 37px;
   font-size: 25px;
-  background-color: #003f7f; 
-  color: white; 
-  border: none; 
-  border-radius: 50%; /* Bouton rond */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-  cursor: pointer; 
-  display: none; 
-  z-index: 1000; /* Toujours au-dessus des autres éléments */
+  background-color: #003f7f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: none;
+  z-index: 1000;
   transition: background-color 0.3s, transform 0.2s;
 }
-
 #btn-scroll-top:hover {
-  background-color: var(--button-hover-blue); 
-  transform: scale(1.1); /* Agrandissement au survol */
+  background-color: var(--button-hover-blue);
+  transform: scale(1.1);
+}
+#btn-scroll-top:active { background-color: var(--button-active-blue); }
+
+/* Options du Quizz (alignement horizontal) */
+.options-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.option-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--button-blue);
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.option-button:hover {
+  background-color: var(--button-hover-blue);
+  transform: scale(1.05);
+}
+.option-button:active { background-color: var(--button-active-blue); }
+
+#score-section {
+  margin-top: 20px;
+  font-size: 16px;
 }
 
-#btn-scroll-top:active {
-  background-color: var(--button-active-blue); /* Couleur au clic */
+.info-vide {
+  font-style: italic;
+  color: #ff6b6b; /* Rouge clair pour attirer l'attention */
+  text-align: center;
+  margin-top: 20px;
 }

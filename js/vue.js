@@ -80,11 +80,10 @@ export class CharacterView {
     });
   }
 
-
-
-  toggleNoResultsMessage(show) {
-    this.noResultsMessage.style.display = show ? 'block' : 'none';
-  }
+  displayNoResultsMessage() {
+    const resultsContainer = document.getElementById('bloc-resultats');
+    resultsContainer.innerHTML = '<p class="info-vide">Aucun personnage trouvé. Essayez un autre nom !</p>';
+}
 
   toggleNoFavoritesMessage(show) {
     this.noFavoritesMessage.style.display = show ? 'block' : 'none';
@@ -139,7 +138,29 @@ export class CharacterView {
     this.favoritesButton.innerHTML = `<img src="images/${isFavorite ? 'etoile-pleine' : 'etoile-vide'}.svg" alt="${isFavorite ? 'Favori' : 'Non favori'}" width="22">`;
   }
   
-  showLoadingIndicator(show) {
-    this.loadingIndicator.style.display = show ? 'block' : 'none';
+  showLoadingIndicator(isVisible) {
+    const loadingElement = document.getElementById('bloc-gif-attente');
+    const loadingImage = document.getElementById('loading-image');
+
+    // Liste des images de chargement
+    const loadingImages = [
+        'images/attente-ajax1.gif',
+        'images/attente-ajax2.gif',
+        'images/attente-ajax3.gif',
+        'images/attente-ajax5.gif',
+        'images/attente-ajax6.gif'
+    ];
+
+    if (isVisible) {
+        // Sélectionne une image aléatoire
+        const randomIndex = Math.floor(Math.random() * loadingImages.length);
+        loadingImage.src = loadingImages[randomIndex];
+
+        // Affiche l'indicateur de chargement
+        loadingElement.style.display = 'block';
+    } else {
+        // Masque l'indicateur de chargement
+        loadingElement.style.display = 'none';
+    }
   }
 }

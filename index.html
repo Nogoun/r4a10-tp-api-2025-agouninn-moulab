@@ -54,18 +54,19 @@
         <!-- Résultats de recherche -->
         <div id="bloc-gif-attente">
           <img
-            src="images/attente-ajax.gif"
+            id="loading-image"
+            src="images/attente-ajax1.gif"
             alt="GIF Attente de résultats"
-            width="50"
+            width="300"
           />
         </div>
+
         <div id="bloc-resultats">
           <!-- Les résultats seront insérés ici dynamiquement -->
           <p class="info-vide">(Aucun résultat trouvé)</p>
         </div>
       </section>
 
-      <!-- Section de séparation -->
       <section id="section-separation"></section>
 
       <!-- Section des recherches favorites -->
@@ -84,9 +85,9 @@
     <script type="module" src="js/vue.js"></script>
     <script type="module" src="js/controller.js"></script>
     <script>
-      // Sélectionner le bouton
-      const scrollTopButton = document.getElementById("btn-scroll-top");
 
+
+      const scrollTopButton = document.getElementById("btn-scroll-top");
       // Afficher ou cacher le bouton en fonction du défilement
       window.addEventListener("scroll", () => {
         if (window.scrollY > 200) { // Affiche le bouton après 200px de défilement

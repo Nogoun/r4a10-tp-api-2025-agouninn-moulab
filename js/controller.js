@@ -15,12 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     model.currentSearch = query;
     view.showLoadingIndicator(true);
     view.clearResults();
-    view.toggleNoResultsMessage(false);
 
     try {
       const characters = await model.searchCharacters(query);
       if (characters.length === 0) {
-        view.toggleNoResultsMessage(true);
+        view.displayNoResultsMessage();
       } else {
         view.displayResults(characters);
       }
@@ -36,12 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     model.currentSearch = query;
     view.showLoadingIndicator(true);
     view.clearResults();
-    view.toggleNoResultsMessage(false);
   
     try {
       const characters = await model.searchCharacters(query);
       if (characters.length === 0) {
-        view.toggleNoResultsMessage(true);
+        view.displayNoResultsMessage();
       } else {
         view.displayResults(characters);
       }
@@ -66,13 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
     view.setSearchInput(favorite); // Met à jour le champ de recherche
     view.clearResults();
     view.showLoadingIndicator(true);
-    view.toggleNoResultsMessage(false);
   
     // Relance la recherche
     model.searchCharacters(favorite)
       .then((characters) => {
         if (characters.length === 0) {
-          view.toggleNoResultsMessage(true); 
+          view.displayNoResultsMessage();
         } else {
           view.displayResults(characters);
         }
